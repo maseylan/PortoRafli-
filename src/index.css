@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #121316;
+  --color-surface-dim: #121316;
+  --color-surface-bright: #38393c;
+  --color-surface-container-lowest: #0d0e11;
+  --color-surface-container-low: #1b1b1f;
+  --color-surface-container: #1f1f23;
+  --color-surface-container-high: #292a2d;
+  --color-surface-container-highest: #343538;
+  --color-on-surface: #e3e2e6;
+  --color-on-surface-variant: #c5c6cf;
+  --color-inverse-surface: #e3e2e6;
+  --color-inverse-on-surface: #303034;
+  --color-outline: #8e9099;
+  --color-outline-variant: #44474e;
+  --color-surface-tint: #b2c6f6;
+  --color-primary: #b2c6f6;
+  --color-on-primary: #1a3057;
+  --color-primary-container: #8fa3d1;
+  --color-on-primary-container: #243960;
+  --color-inverse-primary: #4a5e88;
+  --color-secondary: #c6c6cd;
+  --color-on-secondary: #2e3036;
+  --color-secondary-container: #47494f;
+  --color-on-secondary-container: #b7b8bf;
+  --color-tertiary: #c2c6d4;
+  --color-on-tertiary: #2b303b;
+  --color-tertiary-container: #9ea3b1;
+  --color-on-tertiary-container: #343945;
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+  --color-primary-fixed: #d8e2ff;
+  --color-primary-fixed-dim: #b2c6f6;
+  --color-on-primary-fixed: #011a41;
+  --color-on-primary-fixed-variant: #32466f;
+  --color-secondary-fixed: #e2e2e9;
+  --color-secondary-fixed-dim: #c6c6cd;
+  --color-on-secondary-fixed: #1a1c20;
+  --color-on-secondary-fixed-variant: #45474c;
+  --color-tertiary-fixed: #dee2f1;
+  --color-tertiary-fixed-dim: #c2c6d4;
+  --color-on-tertiary-fixed: #171c26;
+  --color-on-tertiary-fixed-variant: #424752;
+  --color-background: #121316;
+  --color-on-background: #e3e2e6;
+  --color-surface-variant: #343538;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Hanken Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 0.125rem;
+  --radius-default: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  --spacing-margin-page: 4rem;
+  --spacing-gutter-grid: 2rem;
+  --spacing-section-gap: 8rem;
+  --spacing-stack-sm: 1rem;
+  --spacing-stack-md: 2rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+  }
+}
+
+/* Custom scrollbar to match the high-end dark aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0e11;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #292a2d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #343538;
+}
+
+.cinematic-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(178, 198, 246, 0.08) 0%, rgba(18, 19, 22, 0) 60%);
+}
+
+.glow-overlay {
+  background: radial-gradient(var(--glow-size, 400px) circle at var(--glow-x, 0px) var(--glow-y, 0px), rgba(178, 198, 246, 0.06), transparent 80%);
+}

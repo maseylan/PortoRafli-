@@ -1,0 +1,6 @@
+{
+  "name": "Studio Archive Portfolio",
+  "description": "A minimalist, cinematic portfolio website with interactive project viewers, fluid animations, and professional layout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
