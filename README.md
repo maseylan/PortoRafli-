@@ -2,7 +2,7 @@
 
 A cinematic, modern, and data-driven portfolio showcasing my experience as a Fullstack Developer and QA Automation Engineer. Built with React, TypeScript, Tailwind CSS, and Framer Motion.
 
-## 🚀 Overview
+##  Overview
 
 This portfolio highlights my dual expertise in building scalable applications and ensuring software reliability. It includes:
 - **Hero Section:** A visually stunning introduction with a dynamic, floating tech-stack background.
@@ -11,7 +11,7 @@ This portfolio highlights my dual expertise in building scalable applications an
 - **About Me:** My professional philosophy and core competencies.
 - **Contact:** Links to my GitHub, LinkedIn, and Email for seamless communication.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Framework:** React + Vite
 - **Language:** TypeScript
@@ -19,7 +19,7 @@ This portfolio highlights my dual expertise in building scalable applications an
 - **Animations:** Framer Motion (`motion/react`)
 - **Icons:** Lucide React
 
-## 💻 Getting Started
+##  Getting Started
 
 Follow these steps to run the project locally:
 
@@ -42,7 +42,7 @@ Follow these steps to run the project locally:
 4. **Open in browser:**
    Navigate to the URL provided in your terminal (usually `http://localhost:5173` or similar).
 
-## 🎨 Customization
+##  Customization
 
 The portfolio is designed to be easily customizable. All data is centralized in `src/data.ts`.
 - **Projects:** Update the `PROJECT_DATA` array.

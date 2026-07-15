@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { X, ExternalLink, Sliders, Layout, Eye, Sparkles } from "lucide-react";
+import { X, ExternalLink, Sliders, Layout, Eye, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { Project } from "../types";
 
 interface ProjectDetailModalProps {
@@ -10,6 +10,14 @@ interface ProjectDetailModalProps {
 
 export default function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
   if (!project) return null;
+
+  // Carousel state
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const allImages = [project.image, ...(project.gallery || [])];
+  const currentImage = allImages[currentImageIndex];
+
+  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
 
   // Custom interactive playground states for each project
   // 1. Ethereal Spaces states
@@ -92,9 +100,18 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
           </div>
 
           {/* Banner Media Showcase */}
-          <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-surface-container-low border border-outline-variant/10 group">
+          <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black border border-white/10 group">
+            {/* Blurred Backdrop */}
             <img
-              src={project.image}
+              src={currentImage}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-40 scale-110 transition-all duration-500"
+            />
+            
+            {/* Foreground uncropped image */}
+            <img
+              key={currentImage}
+              src={currentImage}
               alt={project.title}
               style={
                 project.id === "ethereal-spaces"
@@ -103,18 +120,49 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
                   ? getVoidAestheticsStyle()
                   : undefined
               }
-              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+              className="relative z-10 w-full h-full object-contain opacity-95 group-hover:opacity-100 transition-all duration-500 drop-shadow-2xl animate-in fade-in zoom-in-95"
             />
+
+            {/* Carousel Controls (only if multiple images) */}
+            {allImages.length > 1 && (
+              <>
+                <button 
+                  onClick={prevImage} 
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/80 border border-white/10 rounded-full text-white z-30 transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button 
+                  onClick={nextImage} 
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/40 hover:bg-black/80 border border-white/10 rounded-full text-white z-30 transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md"
+                >
+                  <ChevronRight size={24} />
+                </button>
+
+                {/* Dot Indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-30 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                  {allImages.map((_, idx) => (
+                    <button 
+                      key={idx} 
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${currentImageIndex === idx ? "bg-primary w-4" : "bg-white/40 hover:bg-white/80 w-1.5"}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+            
+            {/* Decorative overlay for void-aesthetics */}
             {project.id === "void-aesthetics" && (
               <div
-                className="absolute inset-0 pointer-events-none mix-blend-screen"
+                className="absolute inset-0 z-20 pointer-events-none mix-blend-screen"
                 style={{
                   background: `linear-gradient(${eclipseAngle}deg, rgba(178,198,246,0) 20%, rgba(178,198,246,${ambientGlow / 300}) 50%, rgba(0,0,0,0.8) 80%)`,
                   transition: "background 0.3s ease",
                 }}
               />
             )}
-            <div className="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-outline-variant/30 px-3 py-1.5 rounded text-[10px] font-mono tracking-wider flex items-center gap-1.5">
+            <div className="absolute z-20 bottom-4 right-4 bg-background/80 backdrop-blur-md border border-outline-variant/30 px-3 py-1.5 rounded text-[10px] font-mono tracking-wider flex items-center gap-1.5">
               <Eye size={12} className="text-primary" />
               LIVE SHADER FEED // {project.year}
             </div>

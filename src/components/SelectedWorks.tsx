@@ -37,9 +37,6 @@ export default function SelectedWorks({ onProjectClick }: SelectedWorksProps) {
         {/* Dynamic Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
           {PROJECT_DATA.map((project, index) => {
-            const isFullWidth = project.id === "ethereal-spaces";
-            const isOffset = project.id === "void-aesthetics";
-
             return (
               <motion.div
                 key={project.id}
@@ -48,23 +45,30 @@ export default function SelectedWorks({ onProjectClick }: SelectedWorksProps) {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: index * 0.15 }}
                 onClick={() => onProjectClick(project)}
-                className={`${isFullWidth ? "md:col-span-2" : "md:col-span-1"} ${
-                  isOffset ? "md:mt-24" : ""
-                } group cursor-pointer`}
+                className="md:col-span-1 group cursor-pointer"
               >
                 {/* Image Showcase Box */}
                 <div
-                  className={`relative overflow-hidden rounded bg-[#1b1b1f] ${
-                    isFullWidth ? "aspect-video" : "aspect-[4/5]"
-                  } mb-6 border border-outline-variant/10 shadow-lg group-hover:border-primary/20 group-hover:shadow-[0_0_40px_rgba(178,198,246,0.12)] transition-all duration-700`}
+                  className="relative overflow-hidden rounded aspect-video mb-6 border border-white/10 shadow-lg group-hover:border-primary/30 group-hover:shadow-[0_0_40px_rgba(178,198,246,0.15)] transition-all duration-700 bg-black"
                 >
+                  {/* Blurred Backdrop to fill blank space */}
+                  <img
+                    src={project.image}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                  />
+                  
+                  {/* Foreground uncropped image */}
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000 ease-out"
+                    loading="lazy"
+                    className="relative z-10 w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-1000 ease-out drop-shadow-2xl"
                   />
+                  
                   {/* Subtle inner grid lines in image */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 z-20 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none" />
                 </div>
 
                 {/* Info & Text Details */}
