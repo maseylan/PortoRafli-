@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "./ui/Navigation";
@@ -9,10 +10,16 @@ import ExperienceSection from "./ui/ExperienceSection";
 import ProjectsSection from "./ui/ProjectsSection";
 import AboutSection from "./ui/AboutSection";
 import FooterSection from "./ui/FooterSection";
-import ProjectDetailModal from "./ui/ProjectDetailModal";
-import ContactModal from "./ui/ContactModal";
 import { Project } from "../types";
 import { PROJECT_DATA } from "../data/portfolioData";
+
+// Dynamically import heavy modals with ssr: false to strip their JS from initial bundle
+const ProjectDetailModal = dynamic(() => import("./ui/ProjectDetailModal"), {
+  ssr: false,
+});
+const ContactModal = dynamic(() => import("./ui/ContactModal"), {
+  ssr: false,
+});
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -211,7 +218,7 @@ export default function PinnedScrollContainer() {
         </div>
       </main>
 
-      {/* Seamless Floating Desktop Side Section Navigation Indicator (No Outer Box Container) */}
+      {/* Seamless Floating Desktop Side Section Navigation Indicator */}
       <aside
         className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-4"
         aria-label="Section Navigation Track"
@@ -259,7 +266,7 @@ export default function PinnedScrollContainer() {
         </span>
       </aside>
 
-      {/* Modals */}
+      {/* Modals (Dynamically Imported) */}
       {selectedProject && (
         <ProjectDetailModal
           project={selectedProject}
