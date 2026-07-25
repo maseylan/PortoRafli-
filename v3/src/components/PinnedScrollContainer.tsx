@@ -6,14 +6,22 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "./ui/Navigation";
 import HeroSection from "./ui/HeroSection";
-import ExperienceSection from "./ui/ExperienceSection";
-import ProjectsSection from "./ui/ProjectsSection";
-import AboutSection from "./ui/AboutSection";
-import FooterSection from "./ui/FooterSection";
 import { Project } from "../types";
 import { PROJECT_DATA } from "../data/portfolioData";
 
-// Dynamically import heavy modals with ssr: false to strip their JS from initial bundle
+// Dynamically import non-hero sections & heavy modals to dramatically shrink initial page load JS
+const ExperienceSection = dynamic(() => import("./ui/ExperienceSection"), {
+  ssr: false,
+});
+const ProjectsSection = dynamic(() => import("./ui/ProjectsSection"), {
+  ssr: false,
+});
+const AboutSection = dynamic(() => import("./ui/AboutSection"), {
+  ssr: false,
+});
+const FooterSection = dynamic(() => import("./ui/FooterSection"), {
+  ssr: false,
+});
 const ProjectDetailModal = dynamic(() => import("./ui/ProjectDetailModal"), {
   ssr: false,
 });
@@ -183,17 +191,17 @@ export default function PinnedScrollContainer() {
 
       {/* Pinned Section Panels */}
       <main className="relative w-full h-full z-10 overflow-hidden">
-        {/* Section 0: Hero */}
+        {/* Section 0: Hero (Synchronous Initial View) */}
         <div className={`section-panel ${getPanelClass(0)}`}>
           <HeroSection onExplore={() => goToSection(1, 0)} isActive={activeSection === 0} />
         </div>
 
-        {/* Section 1: Experience */}
+        {/* Section 1: Experience (Code-split Dynamic Loading) */}
         <div className={`section-panel ${getPanelClass(1)}`}>
           <ExperienceSection isActive={activeSection === 1} />
         </div>
 
-        {/* Section 2: Selected Works */}
+        {/* Section 2: Selected Works (Code-split Dynamic Loading) */}
         <div className={`section-panel ${getPanelClass(2)}`}>
           <ProjectsSection
             onProjectClick={(p) => setSelectedProject(p)}
@@ -203,12 +211,12 @@ export default function PinnedScrollContainer() {
           />
         </div>
 
-        {/* Section 3: About Me */}
+        {/* Section 3: About Me (Code-split Dynamic Loading) */}
         <div className={`section-panel ${getPanelClass(3)}`}>
           <AboutSection isActive={activeSection === 3} />
         </div>
 
-        {/* Section 4: Footer & Contact CTA */}
+        {/* Section 4: Footer & Contact CTA (Code-split Dynamic Loading) */}
         <div className={`section-panel ${getPanelClass(4)}`}>
           <FooterSection
             onNavigateHome={() => goToSection(0, 0)}
