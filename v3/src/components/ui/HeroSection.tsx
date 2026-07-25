@@ -54,7 +54,7 @@ export default function HeroSection({
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-full flex flex-col justify-between px-4 sm:px-8 lg:px-16 pt-16 sm:pt-24 pb-4 overflow-hidden bg-[#0e0d14]"
+      className="relative w-full h-full flex flex-col justify-center sm:justify-between gap-2 sm:gap-0 px-4 sm:px-8 lg:px-16 pt-14 sm:pt-24 pb-3 sm:pb-4 overflow-hidden bg-[#0e0d14]"
       aria-label="Hero Introduction Section"
     >
       {/* Background Video from public/hero/hero.mp4 */}
@@ -79,10 +79,10 @@ export default function HeroSection({
       {/* Main 2-Column Hero Content Grid */}
       <div
         key={`hero-grid-${isActive}`}
-        className="relative z-20 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center"
+        className="relative z-20 w-full max-w-7xl mx-auto sm:my-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-4 lg:gap-8 items-center"
       >
         {/* Left Column: Headline, Bio Paragraph & CTA Buttons */}
-        <div className="lg:col-span-7 flex flex-col items-start gap-2.5 sm:gap-4">
+        <div className="lg:col-span-7 flex flex-col items-start gap-1.5 sm:gap-4">
           {/* Element 1: Category Tag */}
           <div className={`font-mono text-[9px] sm:text-xs text-secondary uppercase tracking-[0.15em] sm:tracking-[0.25em] font-medium flex items-center gap-1.5 sm:gap-2 bg-secondary/10 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-secondary/30 backdrop-blur-md ${
             isActive ? "animate-hero-0" : "opacity-0"
@@ -138,7 +138,7 @@ export default function HeroSection({
         <div className={`lg:col-span-5 w-full ${
           isActive ? "animate-hero-4" : "opacity-0"
         }`}>
-          <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-6 backdrop-blur-md space-y-2 sm:space-y-4 hover:border-secondary/40 transition-all duration-300">
+          <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-2.5 sm:p-6 backdrop-blur-md space-y-1.5 sm:space-y-4 hover:border-secondary/40 transition-all duration-300">
             <div className="flex items-center gap-2.5 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-secondary/15 border border-secondary/30 flex items-center justify-center text-secondary shrink-0">
                 <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -154,17 +154,17 @@ export default function HeroSection({
               Specialized in test automation, API testing, and fullstack development to deliver high-quality applications.
             </p>
 
-            <div className="space-y-1.5 sm:space-y-2 pt-0.5">
+            <div className="space-y-1 sm:space-y-2 pt-0">
               <span className="font-mono text-[10px] sm:text-xs text-secondary uppercase tracking-wider font-bold block">
                 Tech Stack
               </span>
 
               {/* Vector SVG Tech Logos Grid */}
-              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+              <div className="grid grid-cols-5 gap-1 sm:gap-2">
                 {TECH_STACK_ICONS.map((tech) => (
                   <div
                     key={tech.name}
-                    className="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-secondary/50 hover:bg-white/[0.08] transition-all duration-300 group cursor-default"
+                    className="flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-secondary/50 hover:bg-white/[0.08] transition-all duration-300 group cursor-default"
                     title={tech.name}
                   >
                     <TechIcon name={tech.name} className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
@@ -176,7 +176,7 @@ export default function HeroSection({
               </div>
             </div>
 
-            <div className="pt-1.5 sm:pt-2 border-t border-white/10 flex justify-end">
+            <div className="pt-1 sm:pt-2 border-t border-white/10 flex justify-end">
               <button
                 onClick={onNavigateExperience}
                 className="flex items-center gap-1 font-mono text-[10px] sm:text-xs font-bold text-secondary hover:text-white uppercase tracking-wider transition-colors cursor-pointer"
@@ -190,7 +190,7 @@ export default function HeroSection({
       </div>
 
       {/* Element 6: Unified Trustbar Metric Blocks */}
-      <div className={`relative z-20 w-full max-w-7xl mx-auto space-y-2 pt-2 border-t border-white/10 ${
+      <div className={`relative z-20 w-full max-w-7xl mx-auto space-y-1.5 pt-1.5 sm:pt-2 border-t border-white/10 shrink-0 ${
         isActive ? "animate-hero-5" : "opacity-0"
       }`}>
         {/* 4 Metric Blocks Container */}
