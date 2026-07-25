@@ -49,11 +49,14 @@
 }
 
 @layer base {
-  body {
+  html, body {
     background-color: var(--color-background);
     color: var(--color-on-surface);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow: hidden;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    touch-action: pan-x;
   }
 }
 
@@ -159,6 +162,9 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  touch-action: pan-x;
   perspective: 1200px;
 }
 

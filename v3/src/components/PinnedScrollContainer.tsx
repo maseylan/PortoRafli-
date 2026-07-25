@@ -9,7 +9,7 @@ import HeroSection from "./ui/HeroSection";
 import { Project } from "../types";
 import { PROJECT_DATA } from "../data/portfolioData";
 
-// Dynamically import non-hero sections & heavy modals to dramatically shrink initial page load JS
+// Dynamically import non-hero sections & heavy modals
 const ExperienceSection = dynamic(() => import("./ui/ExperienceSection"), {
   ssr: false,
 });
@@ -106,12 +106,20 @@ export default function PinnedScrollContainer() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [handleNextStep, handlePrevStep, selectedProject, isContactOpen]);
 
-  // Touch swipe support for mobile/tablet
+  // Touch swipe support for mobile/tablet with pull-to-refresh prevention
   useEffect(() => {
     let touchStartY = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (selectedProject || isContactOpen) return;
+      // Prevent browser default pull-to-refresh action on mobile
+      if (e.cancelable) {
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -120,7 +128,7 @@ export default function PinnedScrollContainer() {
       const touchEndY = e.changedTouches[0].clientY;
       const diffY = touchStartY - touchEndY;
 
-      if (Math.abs(diffY) > 40 && !isAnimatingRef.current) {
+      if (Math.abs(diffY) > 35 && !isAnimatingRef.current) {
         if (diffY > 0) {
           handleNextStep();
         } else {
@@ -130,9 +138,11 @@ export default function PinnedScrollContainer() {
     };
 
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [handleNextStep, handlePrevStep, selectedProject, isContactOpen]);
@@ -186,22 +196,26 @@ export default function PinnedScrollContainer() {
       <Navigation
         activeSection={activeSection}
         onNavigate={(idx) => goToSection(idx, 0)}
-        onOpenContact={() => setIsContactOpen(true)}
       />
 
       {/* Pinned Section Panels */}
       <main className="relative w-full h-full z-10 overflow-hidden">
-        {/* Section 0: Hero (Synchronous Initial View) */}
+        {/* Section 0: Hero */}
         <div className={`section-panel ${getPanelClass(0)}`}>
-          <HeroSection onExplore={() => goToSection(1, 0)} isActive={activeSection === 0} />
+          <HeroSection
+            onNavigateProjects={() => goToSection(2, 0)}
+            onNavigateExperience={() => goToSection(1, 0)}
+            onOpenContact={() => setIsContactOpen(true)}
+            isActive={activeSection === 0}
+          />
         </div>
 
-        {/* Section 1: Experience (Code-split Dynamic Loading) */}
+        {/* Section 1: Experience */}
         <div className={`section-panel ${getPanelClass(1)}`}>
           <ExperienceSection isActive={activeSection === 1} />
         </div>
 
-        {/* Section 2: Selected Works (Code-split Dynamic Loading) */}
+        {/* Section 2: Selected Works */}
         <div className={`section-panel ${getPanelClass(2)}`}>
           <ProjectsSection
             onProjectClick={(p) => setSelectedProject(p)}
@@ -211,12 +225,12 @@ export default function PinnedScrollContainer() {
           />
         </div>
 
-        {/* Section 3: About Me (Code-split Dynamic Loading) */}
+        {/* Section 3: About Me */}
         <div className={`section-panel ${getPanelClass(3)}`}>
           <AboutSection isActive={activeSection === 3} />
         </div>
 
-        {/* Section 4: Footer & Contact CTA (Code-split Dynamic Loading) */}
+        {/* Section 4: Footer & Contact CTA */}
         <div className={`section-panel ${getPanelClass(4)}`}>
           <FooterSection
             onNavigateHome={() => goToSection(0, 0)}

@@ -1,5 +1,7 @@
 import { Project, Experience } from "../types";
 
+export const DEFAULT_PROJECT_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop";
+
 export const PROJECT_DATA: Project[] = [
   {
     id: "elyra-pos",

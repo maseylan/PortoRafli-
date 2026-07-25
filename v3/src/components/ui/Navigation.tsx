@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
   activeSection: number;
   onNavigate: (index: number) => void;
-  onOpenContact: () => void;
 }
 
 const NAV_ITEMS = [
@@ -14,10 +13,9 @@ const NAV_ITEMS = [
   { label: "EXPERIENCE", index: 1 },
   { label: "PROJECTS", index: 2 },
   { label: "ABOUT", index: 3 },
-  { label: "CONTACT", index: 4 },
 ];
 
-export default function Navigation({ activeSection, onNavigate, onOpenContact }: NavigationProps) {
+export default function Navigation({ activeSection, onNavigate }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -38,9 +36,9 @@ export default function Navigation({ activeSection, onNavigate, onOpenContact }:
           </span>
         </button>
 
-        {/* Center Navigation Links (Clean Underline, Primary/Secondary Accents) */}
+        {/* Center Navigation Links (Clean Underline: HOME, EXPERIENCE, PROJECTS, ABOUT) */}
         <nav
-          className="hidden md:flex items-center gap-6 font-mono text-xs tracking-widest"
+          className="hidden md:flex items-center gap-8 font-mono text-xs tracking-widest"
           aria-label="Main Navigation"
         >
           {NAV_ITEMS.map((item) => {
@@ -48,13 +46,7 @@ export default function Navigation({ activeSection, onNavigate, onOpenContact }:
             return (
               <button
                 key={item.index}
-                onClick={() => {
-                  if (item.index === 4) {
-                    onOpenContact();
-                  } else {
-                    onNavigate(item.index);
-                  }
-                }}
+                onClick={() => onNavigate(item.index)}
                 className={`relative py-1 uppercase transition-all duration-300 focus-visible:ring-2 focus-visible:ring-secondary cursor-pointer ${
                   isActive
                     ? "text-primary font-bold"
@@ -71,18 +63,6 @@ export default function Navigation({ activeSection, onNavigate, onOpenContact }:
           })}
         </nav>
 
-        {/* Right Contact Button (Electric Blue Accent) */}
-        <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={onOpenContact}
-            className="group relative flex items-center gap-2 px-5 py-2 text-xs font-mono tracking-wider uppercase text-secondary border border-secondary/40 bg-secondary/10 hover:bg-secondary hover:text-on-secondary transition-all duration-300 rounded-xl backdrop-blur-md focus-visible:ring-2 focus-visible:ring-secondary font-bold cursor-pointer shadow-md"
-            aria-label="Open Contact Modal"
-          >
-            <Mail className="w-3.5 h-3.5" />
-            <span>CONTACT ME</span>
-          </button>
-        </div>
-
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -96,17 +76,13 @@ export default function Navigation({ activeSection, onNavigate, onOpenContact }:
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-6 right-6 mt-2 p-6 bg-surface-container-low/95 backdrop-blur-xl border border-outline-variant/40 rounded-2xl shadow-2xl flex flex-col gap-4 z-50">
+        <div className="md:hidden absolute top-full left-6 right-6 mt-2 p-6 bg-surface-container-low/95 backdrop-blur-xl border border-outline-variant/40 rounded-2xl shadow-2xl flex flex-col gap-2 z-50">
           <nav className="flex flex-col gap-2" aria-label="Mobile Navigation">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.index}
                 onClick={() => {
-                  if (item.index === 4) {
-                    onOpenContact();
-                  } else {
-                    onNavigate(item.index);
-                  }
+                  onNavigate(item.index);
                   setMobileMenuOpen(false);
                 }}
                 className={`text-left px-4 py-3 font-mono text-xs tracking-wider uppercase rounded-xl transition-all cursor-pointer ${
@@ -119,18 +95,6 @@ export default function Navigation({ activeSection, onNavigate, onOpenContact }:
               </button>
             ))}
           </nav>
-          <div className="pt-2 border-t border-outline-variant/20">
-            <button
-              onClick={() => {
-                onOpenContact();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-center gap-2 py-3 text-xs font-mono tracking-wider uppercase text-on-secondary bg-secondary rounded-xl font-bold shadow-lg cursor-pointer"
-            >
-              <Mail className="w-4 h-4" />
-              <span>CONTACT ME</span>
-            </button>
-          </div>
         </div>
       )}
     </header>

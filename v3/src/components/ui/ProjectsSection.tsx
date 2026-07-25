@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { PROJECT_DATA } from "../../data/portfolioData";
+import { PROJECT_DATA, DEFAULT_PROJECT_IMAGE } from "../../data/portfolioData";
 import { Project } from "../../types";
 import { ArrowUpRight, FolderGit2, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -19,6 +19,31 @@ interface ProjectsSectionProps {
 }
 
 const ITEMS_PER_PAGE = 2; // Display 2 cards per view
+
+function ProjectCardImage({ src, alt }: { src?: string; alt: string }) {
+  const [imgError, setImgError] = useState(false);
+  const fallbackSrc = DEFAULT_PROJECT_IMAGE;
+  const currentSrc = !src || imgError ? fallbackSrc : src;
+
+  return (
+    <>
+      <img
+        src={currentSrc}
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
+        onError={() => setImgError(true)}
+      />
+      <img
+        src={currentSrc}
+        alt={alt}
+        loading="lazy"
+        className="relative z-10 w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-300 ease-out drop-shadow-xl"
+        onError={() => setImgError(true)}
+      />
+    </>
+  );
+}
 
 export default function ProjectsSection({ onProjectClick, subPage, onSetSubPage, isActive = false }: ProjectsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -148,20 +173,9 @@ export default function ProjectsSection({ onProjectClick, subPage, onSetSubPage,
                   : "opacity-0"
               }`}
             >
-              {/* Image Box */}
+              {/* Image Box with Fallback Error Handler */}
               <div className="relative overflow-hidden rounded-lg sm:rounded-xl aspect-[16/8] sm:aspect-[16/9] mb-2 sm:mb-4 border border-white/10 bg-black/60 shadow-lg group-hover:border-secondary/40 transition-all duration-300">
-                <img
-                  src={project.image}
-                  alt=""
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                />
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  className="relative z-10 w-full h-full object-contain opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-300 ease-out drop-shadow-xl"
-                />
+                <ProjectCardImage src={project.image} alt={project.title} />
                 <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-20 font-mono text-[8px] sm:text-[10px] text-secondary bg-[#0e0d14]/90 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded border border-secondary/30 backdrop-blur-md">
                   {project.year}
                 </div>

@@ -16,7 +16,9 @@ import {
 import TechIcon from "./TechIcon";
 
 interface HeroSectionProps {
-  onExplore: () => void;
+  onNavigateProjects: () => void;
+  onNavigateExperience: () => void;
+  onOpenContact: () => void;
   isActive?: boolean;
 }
 
@@ -33,7 +35,12 @@ const TECH_STACK_ICONS = [
   { name: "Git" },
 ];
 
-export default function HeroSection({ onExplore, isActive = true }: HeroSectionProps) {
+export default function HeroSection({
+  onNavigateProjects,
+  onNavigateExperience,
+  onOpenContact,
+  isActive = true,
+}: HeroSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -107,16 +114,18 @@ export default function HeroSection({ onExplore, isActive = true }: HeroSectionP
           <div className={`flex flex-wrap items-center gap-2 sm:gap-3 mt-0.5 sm:mt-2 ${
             isActive ? "animate-hero-3" : "opacity-0"
           }`}>
+            {/* VIEW PROJECTS -> Navigates to Section 2 (Selected Works) */}
             <button
-              onClick={onExplore}
+              onClick={onNavigateProjects}
               className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-6 sm:py-3 bg-primary text-on-primary font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-container transition-all duration-300 cursor-pointer shadow-md"
             >
               <Rocket className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>VIEW PROJECTS</span>
             </button>
 
+            {/* CONTACT ME -> Opens Contact Modal directly */}
             <button
-              onClick={onExplore}
+              onClick={onOpenContact}
               className="flex items-center gap-1.5 sm:gap-2 px-4 py-2 sm:px-6 sm:py-3 border border-secondary/40 bg-secondary/10 hover:bg-secondary/20 text-secondary font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-xl backdrop-blur-md transition-all duration-300 cursor-pointer shadow-md"
             >
               <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
@@ -169,7 +178,7 @@ export default function HeroSection({ onExplore, isActive = true }: HeroSectionP
 
             <div className="pt-1.5 sm:pt-2 border-t border-white/10 flex justify-end">
               <button
-                onClick={onExplore}
+                onClick={onNavigateExperience}
                 className="flex items-center gap-1 font-mono text-[10px] sm:text-xs font-bold text-secondary hover:text-white uppercase tracking-wider transition-colors cursor-pointer"
               >
                 <span>VIEW EXPERIENCE</span>
@@ -180,11 +189,11 @@ export default function HeroSection({ onExplore, isActive = true }: HeroSectionP
         </div>
       </div>
 
-      {/* Element 6: Unified Trustbar Metric Blocks (All 4 Metric Icons Electric Blue #38bdf8) */}
+      {/* Element 6: Unified Trustbar Metric Blocks */}
       <div className={`relative z-20 w-full max-w-7xl mx-auto space-y-2 pt-2 border-t border-white/10 ${
         isActive ? "animate-hero-5" : "opacity-0"
       }`}>
-        {/* 4 Metric Blocks Container (All Icons Electric Blue) */}
+        {/* 4 Metric Blocks Container */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-3 bg-white/[0.02] border border-white/10 rounded-xl sm:rounded-2xl p-2 sm:p-4 backdrop-blur-md">
           <div className="flex items-center gap-2 border-r border-white/10 pr-1 sm:pr-2">
             <div className="p-1 sm:p-2 rounded-lg bg-secondary/10 text-secondary shrink-0 border border-secondary/20">

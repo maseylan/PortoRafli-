@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { Project } from "../../types";
+import { DEFAULT_PROJECT_IMAGE } from "../../data/portfolioData";
 
 interface ProjectDetailModalProps {
   project: Project | null;
@@ -11,6 +12,7 @@ interface ProjectDetailModalProps {
 
 export default function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imgError, setImgError] = useState(false);
 
   // Close on Escape key press
   useEffect(() => {
@@ -23,11 +25,19 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
 
   if (!project) return null;
 
-  const allImages = [project.image, ...(project.gallery || [])];
-  const currentImage = allImages[currentImageIndex];
+  const rawImages = [project.image, ...(project.gallery || [])].filter(Boolean);
+  const allImages = rawImages.length > 0 ? rawImages : [DEFAULT_PROJECT_IMAGE];
+  const safeImageIndex = Math.min(currentImageIndex, allImages.length - 1);
+  const currentImage = imgError ? DEFAULT_PROJECT_IMAGE : (allImages[safeImageIndex] || DEFAULT_PROJECT_IMAGE);
 
-  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  const nextImage = () => {
+    setImgError(false);
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  };
+  const prevImage = () => {
+    setImgError(false);
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
 
   return (
     <div
@@ -76,12 +86,14 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
               src={currentImage}
               alt=""
               className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-40 scale-110"
+              onError={() => setImgError(true)}
             />
             <img
               key={currentImage}
               src={currentImage}
               alt={project.title}
               className="relative z-10 w-full h-full object-contain opacity-95 group-hover:opacity-100 transition-opacity duration-300"
+              onError={() => setImgError(true)}
             />
 
             {/* Carousel Navigation Buttons */}
@@ -107,9 +119,12 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
                   {allImages.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCurrentImageIndex(idx)}
+                      onClick={() => {
+                        setImgError(false);
+                        setCurrentImageIndex(idx);
+                      }}
                       className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                        currentImageIndex === idx ? "bg-primary w-5" : "bg-white/40 hover:bg-white/80 w-1.5"
+                        safeImageIndex === idx ? "bg-primary w-5" : "bg-white/40 hover:bg-white/80 w-1.5"
                       }`}
                       aria-label={`Go to slide ${idx + 1}`}
                     />
@@ -120,7 +135,7 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
 
             <div className="absolute bottom-4 right-4 z-20 bg-background/80 backdrop-blur-md border border-white/10 px-3 py-1 rounded text-[10px] font-mono tracking-wider flex items-center gap-1.5 text-white">
               <Eye className="w-3.5 h-3.5 text-primary" />
-              <span>INSPECTION FEED // {currentImageIndex + 1}/{allImages.length}</span>
+              <span>INSPECTION FEED // {safeImageIndex + 1}/{allImages.length}</span>
             </div>
           </div>
 
