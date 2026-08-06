@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -16,7 +17,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "gsap"],
+  transpilePackages: ["three", "@react-three/fiber", "@react-three/drei"],
 };
 
 export default nextConfig;
